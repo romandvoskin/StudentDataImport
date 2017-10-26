@@ -4,7 +4,7 @@
 export interface Student {
     id: string
     firstName: string,
-    gender: StudentGender, 
+    gender: StudentGender,
     school: string,
     enrolledAt: Date
 }
@@ -23,6 +23,7 @@ export interface StagedStudent {
     gender: StagedStudentGender
     school: string
     enrolledAt: Date
+    batchId: string
 }
 
 /**

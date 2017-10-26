@@ -14,7 +14,15 @@
     },
     {
       "name": "student",
-      "description": "Operations abour student"
+      "description": "Operations about student"
+    },
+    {
+      "name": "stagedStudent",
+      "description": "Operations about staged student"
+    },
+    {
+      "name": "stagedStudents",
+      "description": "Operations about staged students"
     }
   ],
   "schemes": [
@@ -93,7 +101,7 @@
       }
     },
     "/student": {
-      "put": {
+      "post": {
         "tags": [
           "student"
         ],
@@ -115,7 +123,10 @@
         ],
         "responses": {
           "default": {
-            "description": "successful operation"
+            "description": "Student upserted",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
           }
         }
       }
@@ -174,11 +185,171 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Student not found"
+          },
+          "default": {
+            "description": "Student deleted",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        }
+      }
+    },
+    "/stagedStudent": {
+      "post": {
+        "tags": [
+          "stagedStudent"
+        ],
+        "summary": "Create or update stagedstudent",
+        "operationId": "createOrUpdateStagedStudent",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created student object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StagedStudent"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Staged student upserted",
+            "schema": {
+              "$ref": "#/definitions/StagedStudent"
+            }
+          }
+        }
+      }
+    },
+    "/stagedStudent/{id}": {
+      "get": {
+        "tags": [
+          "stagedStudent"
+        ],
+        "summary": "Get staged student by id",
+        "description": "",
+        "operationId": "getStagedStudentById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The staged student id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/StagedStudent"
+            }
+          },
           "400": {
-            "description": "Invalid username supplied"
+            "description": "Invalid id supplied"
           },
           "404": {
-            "description": "User not found"
+            "description": "Staged Student not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "stagedStudent"
+        ],
+        "summary": "Delete a stated student",
+        "operationId": "deleteStagedStudent",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the staged student to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Staged Student not found"
+          },
+          "default": {
+            "description": "Staged Student deleted",
+            "schema": {
+              "$ref": "#/definitions/StagedStudent"
+            }
+          }
+        }
+      }
+    },
+    "/stagedStudents/{id}": {
+      "get": {
+        "tags": [
+          "stagedStudents"
+        ],
+        "summary": "Get staged students by batch id",
+        "description": "",
+        "operationId": "getStagedStudentsById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The staged students batch id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Staged Student batch not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "stagedStudent"
+        ],
+        "summary": "Delete a stated student",
+        "operationId": "deleteStagedStudentsBatch",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the staged student to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Staged Student not found"
+          },
+          "default": {
+            "description": "Staged Student deleted",
+            "schema": {
+              "$ref": "#/definitions/StagedStudent"
+            }
           }
         }
       }
@@ -231,7 +402,7 @@
             "$ref": "#/definitions/StudentImportBatchValidationResultError"
           }
         },
-        "isComplete":{
+        "isComplete": {
           "type": "boolean"
         }
       }
@@ -261,6 +432,24 @@
       ],
       "properties": {
         "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        }
+      }
+    },
+    "StagedStudent": {
+      "type": "object",
+      "required": [
+        "id",
+        "firstName"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "batchId": {
           "type": "string"
         },
         "firstName": {

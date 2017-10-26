@@ -8,7 +8,7 @@ export interface StudentImportBatchResult {
 }
 
 /**
- * Student import synchronous result error
+ * Student import synchronous result errors
  */
 export interface StudentImportBatchResultError {
     id: string,
@@ -19,7 +19,7 @@ export interface StudentImportBatchResultError {
 /**
  * Student import synchronous result error types
  */
-export type StudentImportBatchResultErrorType = "missingHeader" | "rowsHeaderMismatch"
+export type StudentImportBatchResultErrorType = "missingHeader" | "rowsHeaderMismatch" | "missingRows"
 
 /**
  * Student import asynchronous result
