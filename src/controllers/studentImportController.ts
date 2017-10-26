@@ -25,11 +25,11 @@ export class StudentImportController {
         if (!result.hasErrors) {
             // Save csv
             await this.dataAccessService.SaveStudentImportBatch(request.body);
-            // Trigger stage process
-            await this.studentDataStageService.stage(batchId);
-            // Merge with student data
-            await this.studentImportMergeService.merge(batchId);
-
+            // Trigger stage process (async)
+            this.studentDataStageService.stage(batchId).then(() => {
+                // Merge with student data (async)
+                this.studentImportMergeService.merge(batchId);
+            });
         }
         return result;
 

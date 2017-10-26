@@ -16,5 +16,5 @@ export interface StudentImportToStudentTransform {
      * @returns {Student} Student
      * @memberof StudentImportToStudentTransform
      */
-    Transform(stagedStudent: StagedStudent): Student
+    transform(stagedStudent: StagedStudent): Promise<Student>
 }
