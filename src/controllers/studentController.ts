@@ -1,5 +1,5 @@
 import {Route, Get, Post, Delete, Patch, Example, Body} from 'tsoa';
-import { Student, StudentUpsertRequest } from '../models/student';
+import { Student, StagedStudent } from '../models/student';
 
 @Route('student')
 export class UsersController {
@@ -10,7 +10,7 @@ export class UsersController {
     }
 
     @Post()
-    public async Upsert(@Body() request: StudentUpsertRequest): Promise<Student> {
+    public async Upsert(@Body() request: StagedStudent): Promise<Student> {
         return null;
     }
 
