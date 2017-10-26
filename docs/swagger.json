@@ -1,0 +1,269 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Student data import",
+    "version": "1.0.0",
+    "title": "Student data import"
+  },
+  "host": "studentdataimport.io",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "import-students",
+      "description": "Import student data"
+    },
+    {
+      "name": "student",
+      "description": "Operations abour student"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/import/students": {
+      "post": {
+        "tags": [
+          "import-students"
+        ],
+        "summary": "Import student data",
+        "description": "",
+        "operationId": "importStudents",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "upfile",
+            "type": "file",
+            "description": "The file to upload.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted for processing"
+          },
+          "405": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/StudentImportBatchResult"
+            }
+          }
+        }
+      }
+    },
+    "/import/students/{id}": {
+      "get": {
+        "tags": [
+          "import-students"
+        ],
+        "summary": "Get import students batch result",
+        "operationId": "getImportStudentsByBatchId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Import students batchId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/StudentImportBatchValidationResult"
+            }
+          },
+          "400": {
+            "description": "Invalid Student import batch"
+          },
+          "404": {
+            "description": "Student import batch not found"
+          }
+        }
+      }
+    },
+    "/student": {
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Create or update student",
+        "operationId": "createOrUpdateStudent",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created student object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/student/{id}": {
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Get student by id",
+        "description": "",
+        "operationId": "getStudentById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The student id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Delete a student",
+        "operationId": "deleteStudent",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the student to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "StudentImportBatchResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "hasErrors": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentImportBatchResultError"
+          }
+        }
+      }
+    },
+    "StudentImportBatchResultError": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "StudentImportBatchValidationResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "hasErrors": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StudentImportBatchValidationResultError"
+          }
+        }
+      }
+    },
+    "StudentImportBatchValidationResultError": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lineNumber": {
+          "type": "integer"
+        }
+      }
+    },
+    "Student": {
+      "type": "object",
+      "required": [
+        "id",
+        "firstName"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
